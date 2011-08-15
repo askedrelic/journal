@@ -5,7 +5,7 @@ journal
 Copyright 2011 Matt Behrens <askedrelic@gmail.com>
 http://asktherelic.com
 
-Simple CLI tool to assist in keeping a journal for work or personal reasons
+Simple CLI tool to help with keeping a work/personal journal
 
 Licensing included in LICENSE.txt
 """
