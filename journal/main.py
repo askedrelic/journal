@@ -12,12 +12,14 @@ JOURNAL_DEST = ".journal"
 
 def parse_args():
     #parsing
-    parser = argparse.ArgumentParser(
-            description='Simple CLI tool to help with keeping a work/personal journal',
-            version=__version__)
+    parser = argparse.ArgumentParser(description='Simple CLI tool to help with keeping a work/personal journal')
     parser.add_argument('entry',
             action="store",
             help="Text to make an entry in your journal")
+    parser.add_argument('-v', '--version',
+            action="version",
+            version=__version__,
+            help="show program's version number and exit")
     return parser, parser.parse_args()
 
 def check_journal_dest():
