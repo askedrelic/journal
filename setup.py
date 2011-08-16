@@ -13,9 +13,10 @@ long_description = open('README.markdown').read(),
 url              = 'https://github.com/askedrelic/journal',
 
 packages         = find_packages(),
-test_suite       = 'tests',
 entry_points     = """
 [console_scripts]
-journal = journal.main:main"""
+journal = journal.main:main""",
+
+install_requires = ['argparse'],
 )
 
