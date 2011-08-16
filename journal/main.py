@@ -23,7 +23,12 @@ def parse_args():
 def check_journal_dest():
     journal_dir = path.expanduser("~/" + JOURNAL_DEST)
     if not path.exists(journal_dir):
-        makedirs(journal_dir)
+        try:
+            makedirs(journal_dir)
+        except:
+            print "journal: error: creating journal storage directory failed"
+            sys.exit()
+
 
 def record_entry(entry):
     check_journal_dest()
