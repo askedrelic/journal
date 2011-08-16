@@ -1,21 +1,29 @@
-Journal
-=======
+#Journal
 
-Simple CLI tool for keeping a journal for work, personal, or any reason really!
+Simple Python CLI tool help with keeping a journal for work, personal, or any reason really!
 Inspired by Peter Lyons' [article](http://peterlyons.com/leveling_up.html) on
 career development, my own experiences, and too much free time.
 
 Requires
 
-* Python
+* Python 2.6 or greater (probably)
 
 Related:
 
-* [Blog post about Journal](google.com)
+* [Blog post about Journal]()
 
-Examples
-========
+#Installation
 
-Getting started: 
+    pip install journal
 
-    journal "task foo finished"
+The `journal` command should now be available on your command line.
+
+#Usage
+
+It's as simple as:
+
+    $ journal "Task foo completed"
+
+and a `~/.journal/[CURRENT DATE].txt` file will be created using the current
+date, with a timestamp and your entry. Just continue to enter your tasks
+through the days and weeks and build a record of your work.
