@@ -29,7 +29,6 @@ def check_journal_dest():
             print "journal: error: creating journal storage directory failed"
             sys.exit()
 
-
 def record_entry(entry):
     check_journal_dest()
     current_date = datetime.today()
