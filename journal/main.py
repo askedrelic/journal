@@ -3,12 +3,12 @@
 
 import sys
 import argparse
-from os import path
+from os import path, makedirs
 from datetime import datetime
 
 from journal import __version__
 
-DEST = ".journal"
+JOURNAL_DEST = ".journal"
 
 def parse_args():
     #parsing
@@ -20,7 +20,13 @@ def parse_args():
             help="Text to make an entry in your journal")
     return parser, parser.parse_args()
 
+def check_journal_dest():
+    journal_dir = path.expanduser("~/" + JOURNAL_DEST)
+    if not path.exists(journal_dir):
+        makedirs(journal_dir)
+
 def record_entry(entry):
+    check_journal_dest()
     current_date = datetime.today()
     update_date = current_date.strftime("%a %I:%M:%S %Y-%m-%d")
     entry = update_date + "\n-" + entry + "\n\n"
@@ -28,9 +34,8 @@ def record_entry(entry):
         date_file.write(entry)
 
 def build_journal_path(date):
-    entry_dest = DEST
     date_filename = path.expanduser("".join(
-        [ "~/", entry_dest, '/', date.strftime("%Y.%m.%d"), ".txt"]
+        [ "~/", JOURNAL_DEST, '/', date.strftime("%Y.%m.%d"), ".txt"]
         ))
     return date_filename
 
