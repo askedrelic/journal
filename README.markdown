@@ -10,7 +10,7 @@ Requires
 
 Related:
 
-* [Blog post about Journal]()
+* [Blog post about Journal](http://asktherelic.com/2011/08/16/journaling/)
 
 #Installation
 
