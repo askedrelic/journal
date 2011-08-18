@@ -1,5 +1,10 @@
-from setuptools import setup, find_packages                                                                                                                                                      
+from setuptools import setup, find_packages
 import journal
+
+required = []
+
+if sys.version_info[:2] < (2,6):
+    required.append('argparse')
 
 setup(
 name         = 'journal',
@@ -17,6 +22,6 @@ entry_points     = """
 [console_scripts]
 journal = journal.main:main""",
 
-install_requires = ['argparse'],
+install_requires = required,
 )
 
