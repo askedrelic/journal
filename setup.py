@@ -22,6 +22,7 @@ packages         = find_packages(),
 entry_points     = """
 [console_scripts]
 journal = journal.main:main""",
+test_suite       = 'tests',
 
 install_requires = required,
 )
