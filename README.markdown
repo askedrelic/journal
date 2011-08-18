@@ -1,12 +1,13 @@
 #Journal
 
-Simple Python CLI tool help with keeping a journal for work, personal, or any reason really!
-Inspired by Peter Lyons' [article](http://peterlyons.com/leveling_up.html) on
-career development, my own experiences, and too much free time.
+Journal is a Python command line tool to help with keeping a journal for work,
+personal, or any reason really!  Inspired by Peter Lyons'
+[article](http://peterlyons.com/leveling_up.html) on career development, my own
+experiences, and too much free time.
 
 Requires
 
-* Python 2.6 or greater (probably)
+* Python (Tested on Python 2.5, 2.6, 2.7)
 
 Related:
 
