@@ -15,7 +15,8 @@ JOURNAL_DEST = ".journal"
 
 def parse_args():
     #parsing
-    parser = argparse.ArgumentParser(description='Simple CLI tool to help with keeping a work/personal journal')
+    description = 'Simple CLI tool to help with keeping a work/personal journal'
+    parser = argparse.ArgumentParser(description=description)
     parser.add_argument('--version', action="version", version=__version__)
     parser.add_argument('-s', '--since',
             action="store",
