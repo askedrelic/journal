@@ -1,8 +1,9 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
 journal
-Copyright 2011 Matt Behrens <askedrelic@gmail.com>
+Copyright (c) 2011 Matt Behrens <askedrelic@gmail.com>
 http://asktherelic.com
 
 Simple CLI tool to help with keeping a work/personal journal
