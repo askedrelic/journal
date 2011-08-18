@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import unittest
+#py25, py26 compat
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 
 import datetime
 
