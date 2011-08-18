@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+#py2.5 compatibility
+from __future__ import with_statement
+
 import sys
-import argparse
 from os import path, makedirs
+import argparse
 from datetime import datetime
 
 from journal import __version__
