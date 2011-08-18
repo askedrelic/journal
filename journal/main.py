@@ -124,7 +124,7 @@ def main():
             sys.exit()
         get_entries_since(date)
     else:
-        record_entry(args.entry)
+        record_entries(args.entry)
 
 if __name__ == "__main__":
     main()
