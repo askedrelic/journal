@@ -12,3 +12,5 @@ Licensing included in LICENSE.txt
 
 __author__  = "Matt Behrens <askedrelic@gmail.com>"
 __version__ = "0.1"
+
+__all__ = ["main", "parse"]
