@@ -7,21 +7,28 @@ from __future__ import with_statement
 import sys
 from os import path, makedirs
 import argparse
-from datetime import datetime
+import datetime
 
-from journal import __version__
+from journal import __version__, parse
 
 JOURNAL_DEST = ".journal"
 
 def parse_args():
     #parsing
     parser = argparse.ArgumentParser(description='Simple CLI tool to help with keeping a work/personal journal')
-    parser.add_argument('-v', '--version',
-            action="version",
-            version=__version__,
-            help="show program's version number and exit")
+    parser.add_argument('--version', action="version", version=__version__)
+    parser.add_argument('-s', '--since',
+            action="store",
+            dest="since",
+            nargs="?",
+            help="")
+    parser.add_argument('-v', '--view',
+            action="store",
+            dest="view",
+            nargs="?",
+            help="")
     parser.add_argument('entry',
-            nargs="+",
+            nargs="*",
             help="Text to make an entry in your journal")
     return parser, parser.parse_args()
 
@@ -40,7 +47,7 @@ def record_entries(entries):
     entry - list of entries to record
     """
     check_journal_dest()
-    current_date = datetime.today()
+    current_date = datetime.datetime.today()
     date_header = current_date.strftime("%a %I:%M:%S %Y-%m-%d") + "\n"
     with open(build_journal_path(current_date), "a") as date_file:
         entry_output = date_header
@@ -55,41 +62,58 @@ def build_journal_path(date):
         ))
     return date_filename
 
-def show_today():
-    current_date = datetime.today()
-    return show_entry(current_date)
-
-def show_entry(date):
+def get_entry(date):
     """
     args
-    date - datetime object
+    date - date object
     returns entry text or None if entry doesn't exist
     """
+    if not isinstance(date, datetime.date):
+        return None
     try:
         with open(build_journal_path(date), "r") as entry_file:
             return entry_file.read()
     except IOError:
         return None
 
+def daterange(start_date, end_date):
+    #loop over days + 1 for inclusive behavior
+    for n in xrange((end_date - start_date).days + 1):
+        yield start_date + datetime.timedelta(n)
+
+def get_entries_since(date):
+    today = datetime.date.today()
+    for single_date in daterange(date, today):
+        entry = get_entry(single_date)
+        if entry:
+            print entry
+
 def main():
     #parse args
     parser, args = parse_args()
-
-    record_entries(args.entry)
+    date_parse = parse.Parse()
 
     #check args
-    #if not str.strip(args.entry):
-        #parser.print_help()
-        #sys.exit()
-    #elif args.entry == 'today':
-        #entry = show_today()
-        #if entry:
-            #print entry
-        #else:
-            #print "journal: error: entry not found on that date"
-            #sys.exit()
-    #else:
-        #record_entry(args.entry)
+    if args.view:
+        date = date_parse.day(args.view)
+        if not date:
+            print "journal: error: unknown date format"
+            sys.exit()
+
+        entry = get_entry(date)
+        if entry:
+            print entry
+        else:
+            print "journal: error: entry not found on date %s" % date
+            sys.exit()
+    elif args.since:
+        date = date_parse.day(args.since)
+        if not date:
+            print "journal: error: unknown date format"
+            sys.exit()
+        get_entries_since(date)
+    else:
+        record_entry(args.entry)
 
 if __name__ == "__main__":
     main()
