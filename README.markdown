@@ -28,3 +28,23 @@ It's as simple as:
 and a `~/.journal/[CURRENT DATE].txt` file will be created using the current
 date, with a timestamp and your entry. Just continue to enter your tasks
 through the days and weeks and build a record of your work.
+
+The API for viewing and listing previous entries is currently a WIP, but you
+should be able to view specific entries for a day by using the flag `--view`. Short
+tags work with these dates.
+
+    $ journal --view "yesterday"
+    $ journal --view "12 days ago"
+    $ journal --view "8/14"
+
+    # Easiest way to view today (t)
+    $ journal -vt
+
+    # Easiest way to view yesterday (y)
+    $ journal -vy
+
+You can view all entries since a specific previous date, using the flag
+`--since`. This is sparse output, dates without entries will be skipped quietly.
+
+    $ journal --since "yesterday"
+    $ journal --since "7 days ago"
