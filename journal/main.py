@@ -18,16 +18,28 @@ import sys
 from os import path, makedirs
 import argparse
 import datetime
+import ConfigParser
 
 from journal import __version__, parse
 
 DEFAULT_JOURNAL = "~/.journal"
+DEFAULT_JOURNAL_RC = "~/.journalrc"
 
 def parse_args():
     #parsing
     description = 'Simple CLI tool to help with keeping a work/personal journal'
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('--version', action="version", version=__version__)
+    parser.add_argument('-c', '--config',
+            action="store",
+            dest="config_file",
+            nargs="?",
+            help="")
+    parser.add_argument('-j', '--journal',
+            action="store",
+            dest="journal",
+            nargs="?",
+            help="")
     parser.add_argument('-l', '--location',
             action="store",
             dest="location",
@@ -47,6 +59,27 @@ def parse_args():
             nargs="*",
             help="Text to make an entry in your journal")
     return parser, parser.parse_args()
+
+def parse_config(args):
+    config_file = DEFAULT_JOURNAL_RC
+    if (args.config_file):
+        config_file = args.config_file
+    config_path = path.expanduser(config_file)
+    if not path.exists(config_path):
+        if (config_file != DEFAULT_JOURNAL_RC):
+            print "Config file " + config_file + " not found"
+        return
+
+    config = ConfigParser.SafeConfigParser({
+        'journal':{'default':'__journal'},
+        '__journal':{'location':DEFAULT_JOURNAL}
+    })
+    config.read(config_path)
+
+    journal_location = config.get(config.get('journal', 'default'), 'location');
+    if (args.journal):
+        journal_location = config.get(args.journal, 'location');
+    return journal_location
 
 def check_journal_dest(location):
     journal_dir = path.expanduser(location)
@@ -107,10 +140,10 @@ def get_entries_since(journal_location, date):
 def main():
     #parse args
     parser, args = parse_args()
+    journal_location = parse_config(args)
     date_parse = parse.Parse()
 
     #check args
-    journal_location = DEFAULT_JOURNAL
     if args.location:
         journal_location = args.location
     check_journal_dest(journal_location)
