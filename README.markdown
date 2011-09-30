@@ -48,3 +48,32 @@ You can view all entries since a specific previous date, using the flag
 
     $ journal --since "yesterday"
     $ journal --since "7 days ago"
+
+#Advanced usage
+
+In the simplest for described above, journal entries are stored in ~/.journal.
+By providing the `--location|-l path` command line switch entries will be read
+from & written to the provided directory.  This functionality is useful for
+having journals dealing with separate domains:
+
+    $ journal -l ~/.work "Got all of the monies"
+    $ journal -l ~/.home "Spent all the monies"
+
+See below for using a `.journalrc` to define these journals & storage locations.
+
+#Configuration
+
+You can create a `.journalrc` file (or one specified with the `-c` switch) to
+define journal directories:
+
+    [journal]
+    default: work
+
+    [home]
+    location: ~/Dropbox/journals/home
+
+    [work]
+    location: ~/Dropbox/journals/work
+
+With journals defined as such, you can use the `--journal|-j name` switch to
+choose which journal location to operate on.
