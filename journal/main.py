@@ -27,7 +27,7 @@ DEFAULT_JOURNAL_RC = "~/.journalrc"
 
 def parse_args():
     #parsing
-    description = 'Simple CLI tool to help with keeping a work/personal journal'
+    description = 'A CLI tool to help with keeping a datetime organized journal'
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('--version', action="version", version=__version__)
     parser.add_argument('-c', '--config',
