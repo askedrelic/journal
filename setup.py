@@ -25,5 +25,16 @@ journal = journal.main:main""",
 test_suite       = 'tests',
 
 install_requires = required,
+
+classifiers      = (
+    'Intended Audience :: Developers',
+    'Natural Language :: English',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 2.5',
+    'Programming Language :: Python :: 2.6',
+    'Programming Language :: Python :: 2.7',
+    # 'Programming Language :: Python :: 3.0',
+    # 'Programming Language :: Python :: 3.1',
+),
 )
 
