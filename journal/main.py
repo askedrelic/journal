@@ -50,12 +50,12 @@ def parse_args():
             action="store",
             dest="since",
             nargs="?",
-            help="")
+            help="show all journal entries since a date [SINCE]")
     parser.add_argument('-v', '--view',
             action="store",
             dest="view",
             nargs="?",
-            help="")
+            help="view all journal entries on a specific date [VIEW]")
     parser.add_argument('entry',
             nargs="*",
             help="Text to make an entry in your journal")
@@ -149,6 +149,8 @@ def main():
         journal_location = args.location
     check_journal_dest(journal_location)
 
+    #TODO: better handle program exit flow through exceptions?
+    #handle_args
     if args.view:
         date = date_parse.day(args.view)
         if not date:
