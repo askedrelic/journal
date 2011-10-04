@@ -17,6 +17,7 @@ from __future__ import with_statement
 import sys
 from os import path, makedirs
 import argparse
+import string
 import datetime
 import ConfigParser
 
@@ -167,7 +168,13 @@ def main():
             sys.exit()
         get_entries_since(journal_location, date)
     else:
-        record_entries(journal_location, args.entry)
+        # Cleanup/check for empty entry list
+        entries = filter(string.strip, args.entry)
+        if entries:
+            record_entries(journal_location, entries)
+        else:
+            print "journal: error: missing entry"
+            sys.exit()
 
 if __name__ == "__main__":
     main()
