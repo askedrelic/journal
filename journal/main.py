@@ -62,14 +62,27 @@ def parse_args():
     return parser, parser.parse_args()
 
 def parse_config(args):
-    config_file = DEFAULT_JOURNAL_RC
-    if (args.config_file):
+    """
+    Parse existing config for journal location
+    Otherwise, return default location
+
+    Returns journal location
+    """
+    # Use config file if provided
+    if args.config_file:
         config_file = args.config_file
+    else:
+        config_file = DEFAULT_JOURNAL_RC
+
     config_path = path.expanduser(config_file)
     if not path.exists(config_path):
-        if (config_file != DEFAULT_JOURNAL_RC):
-            print "Config file " + config_file + " not found"
-        return
+        # Complain if they provided non-existant config
+        if config_file != DEFAULT_JOURNAL_RC:
+            print "journal: error: config file '" + config_file + "' not found"
+            sys.exit()
+        else:
+            # If no config file, use default journal location
+            return DEFAULT_JOURNAL
 
     config = ConfigParser.SafeConfigParser({
         'journal':{'default':'__journal'},
@@ -78,7 +91,7 @@ def parse_config(args):
     config.read(config_path)
 
     journal_location = config.get(config.get('journal', 'default'), 'location');
-    if (args.journal):
+    if args.journal:
         journal_location = config.get(args.journal, 'location');
     return journal_location
 
