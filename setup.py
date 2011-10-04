@@ -13,7 +13,7 @@ version      = journal.__version__,
 author       = journal.__author__,
 author_email = 'askedrelic@gmail.com',
 
-description      = 'Simple CLI tool to help with keeping a work/personal journal',
+description      = 'A CLI tool to help with keeping a datetime organized journal',
 long_description = open('README.markdown').read(),
 
 url              = 'https://github.com/askedrelic/journal',

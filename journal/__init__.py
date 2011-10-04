@@ -6,7 +6,7 @@ journal
 Copyright (c) 2011 Matt Behrens <askedrelic@gmail.com>
 http://asktherelic.com
 
-Simple CLI tool to help with keeping a work/personal journal
+A CLI tool to help with keeping a datetime organized journal
 
 Licensing included in LICENSE.txt
 """
