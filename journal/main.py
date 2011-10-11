@@ -186,6 +186,11 @@ def main():
             sys.exit()
         get_entries_since(journal_location, date)
     else:
+        # Check for no-args and show help then
+        if len(args.entry) == 0:
+            parser.print_help()
+            sys.exit()
+
         # Cleanup/check for empty entry list
         entries = filter(string.strip, args.entry)
         if entries:
