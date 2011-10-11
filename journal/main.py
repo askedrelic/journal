@@ -46,16 +46,19 @@ def parse_args():
             dest="location",
             nargs="?",
             help="")
-    parser.add_argument('-s', '--since',
+
+    date_group = parser.add_mutually_exclusive_group()
+    date_group.add_argument('-s', '--since',
             action="store",
             dest="since",
             nargs="?",
             help="show all journal entries since a date [SINCE]")
-    parser.add_argument('-v', '--view',
+    date_group.add_argument('-v', '--view',
             action="store",
             dest="view",
             nargs="?",
             help="view all journal entries on a specific date [VIEW]")
+
     parser.add_argument('entry',
             nargs="*",
             help="Text to make an entry in your journal")
