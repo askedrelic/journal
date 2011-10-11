@@ -31,37 +31,43 @@ def parse_args():
     description = 'A CLI tool to help with keeping a datetime organized journal'
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('--version', action="version", version=__version__)
-    parser.add_argument('-c', '--config',
+
+    config_group = parser.add_argument_group('optional config arguments')
+    config_group.add_argument('-c', '--config',
             action="store",
             dest="config_file",
             nargs="?",
-            help="")
-    parser.add_argument('-j', '--journal',
+            help="load config from [CONFIG_FILE] instead of ~/.journalrc")
+    config_group.add_argument('-j', '--journal',
             action="store",
             dest="journal",
             nargs="?",
-            help="")
-    parser.add_argument('-l', '--location',
+            help="add entry to [JOURNAL]")
+    config_group.add_argument('-l', '--location',
             action="store",
             dest="location",
             nargs="?",
-            help="")
+            help="store journal in [LOCATION] instead of ~/.journal")
 
-    date_group = parser.add_mutually_exclusive_group()
+    date_group = parser.add_argument_group('optional viewing arguments')
     date_group.add_argument('-s', '--since',
             action="store",
+            metavar="DATE",
             dest="since",
             nargs="?",
-            help="show all journal entries since a date [SINCE]")
+            help="find all journal entries since a date")
     date_group.add_argument('-v', '--view',
             action="store",
+            metavar="DATE",
             dest="view",
             nargs="?",
-            help="view all journal entries on a specific date [VIEW]")
+            help="view all journal entries on a specific date")
 
-    parser.add_argument('entry',
+    main_group = parser.add_argument_group('main argument')
+    main_group.add_argument('entry',
             nargs="*",
-            help="Text to make an entry in your journal")
+            help="text to make an entry in your journal")
+
     return parser, parser.parse_args()
 
 def parse_config(args):
