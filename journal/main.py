@@ -48,6 +48,8 @@ def parse_args():
             dest="location",
             nargs="?",
             help="store journal in [LOCATION] instead of ~/.journal")
+    # Set defaults here to make interface simpler later
+    parser.set_defaults(config_file=DEFAULT_JOURNAL_RC, location=DEFAULT_JOURNAL)
 
     date_group = parser.add_argument_group('optional viewing arguments')
     date_group.add_argument('-s', '--since',
@@ -72,27 +74,23 @@ def parse_args():
 
 def parse_config(args):
     """
-    Parse existing config for journal location
+    Try to load config, to load other journal locations
     Otherwise, return default location
 
     Returns journal location
     """
-    # Use config file if provided
-    if args.config_file:
-        config_file = args.config_file
-    else:
-        config_file = DEFAULT_JOURNAL_RC
-
-    config_path = path.expanduser(config_file)
+    # Try user config or return default location early
+    config_path = path.expanduser(args.config_file)
     if not path.exists(config_path):
         # Complain if they provided non-existant config
-        if config_file != DEFAULT_JOURNAL_RC:
-            print "journal: error: config file '" + config_file + "' not found"
+        if args.config_file != DEFAULT_JOURNAL_RC:
+            print "journal: error: config file '" + args.config_file + "' not found"
             sys.exit()
         else:
             # If no config file, use default journal location
             return DEFAULT_JOURNAL
 
+    # If we get here, assume valid config file
     config = ConfigParser.SafeConfigParser({
         'journal':{'default':'__journal'},
         '__journal':{'location':DEFAULT_JOURNAL}
