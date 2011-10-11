@@ -167,6 +167,8 @@ def main():
     #check args
     if args.location:
         journal_location = args.location
+    if args.journal:
+        journal_location += '/' + args.journal
     check_journal_dest(journal_location)
 
     #TODO: better handle program exit flow through exceptions?
