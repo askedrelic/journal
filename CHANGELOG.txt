@@ -1,9 +1,0 @@
-2011/08/16
-v0.1.0
--working journal recording
--view entries made today
-
-2011/08/18
-v0.2.0
--added multiple journal messages from 1 command line; multi-arg entries
--added '--since' and '--view' args to view previous entries using human-readable dates
