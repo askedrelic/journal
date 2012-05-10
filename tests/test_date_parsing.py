@@ -15,11 +15,11 @@ from journal import main, parse
 class TestParser(unittest.TestCase):
     def setUp(self):
         self.parser = parse.Parse()
+        self.today = datetime.date.today()
 
     def test_parsing_days(self):
-        today = datetime.date.today()
-        date_today = datetime.date(today.year, today.month, today.day)
-        date_yesterday = datetime.date(today.year, today.month, today.day-1)
+        date_today = datetime.date(self.today.year, self.today.month, self.today.day)
+        date_yesterday = datetime.date(self.today.year, self.today.month, self.today.day-1)
 
         dates = map(self.parser.day, 'today t yesterday y'.split())
         answers = [date_today, date_today, date_yesterday, date_yesterday]
@@ -27,16 +27,16 @@ class TestParser(unittest.TestCase):
         self.assertListEqual(dates, answers)
 
     def test_parsing_n_days(self):
-        today = datetime.date.today()
-
+        # days ago case
         dates = []
         answers = []
         for n in xrange(1,12,2):
             dates.append("%s days ago" % n)
-            answers.append(datetime.date(today.year, today.month, today.day - n))
+            answers.append(datetime.date(self.today.year, self.today.month, self.today.day) - datetime.timedelta(days=n))
+
         #'a day ago' case
         dates.append("a day ago")
-        answers.append(datetime.date(today.year, today.month, today.day - 1))
+        answers.append(datetime.date(self.today.year, self.today.month, self.today.day) - datetime.timedelta(days=1))
 
         dates = map(self.parser.day, dates)
 
@@ -53,8 +53,8 @@ class TestParser(unittest.TestCase):
                 datetime.date(1977, 6, 2),
                 datetime.date(1977, 6, 2),
                 datetime.date(1977, 6, 2),
-                datetime.date(2011, 6, 2),
-                datetime.date(2011, 6, 2),
+                datetime.date(self.today.year, 6, 2),
+                datetime.date(self.today.year, 6, 2),
                 ]
         answers += [
                 datetime.date(1986, 7, 22),
