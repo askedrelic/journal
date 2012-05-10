@@ -1,16 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-journal
-Copyright (c) 2011 Matt Behrens <askedrelic@gmail.com>
-http://asktherelic.com
-
-A CLI tool to help with keeping a datetime organized journal
-
-Licensing included in LICENSE.txt
-"""
-
 #py2.5 compatibility
 from __future__ import with_statement
 
@@ -28,7 +18,7 @@ DEFAULT_JOURNAL_RC = "~/.journalrc"
 
 def parse_args():
     #parsing
-    description = 'A CLI tool to help with keeping a datetime organized journal'
+    description = 'A CLI tool to help with keeping a work/personal journal'
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('--version', action="version", version=__version__)
 
