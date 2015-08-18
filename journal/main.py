@@ -5,11 +5,14 @@
 from __future__ import with_statement
 
 import sys
-from os import path, makedirs
+from os import path, makedirs, environ
+import re
 import argparse
 import string
 import datetime
 import ConfigParser
+import subprocess
+import tempfile
 
 from journal import __version__, parse
 
@@ -152,6 +155,24 @@ def get_entries_since(journal_location, date):
         if entry:
             print entry
 
+
+def get_entries_from_editor():
+    # Try to envoke $EDITOR to get entries
+    editor = environ.get("EDITOR")
+    if not editor:
+        return []
+
+    with tempfile.NamedTemporaryFile(suffix='txt') as fp:
+        # This dance was necessary on OS X with subl -w set as an
+        # editor. The path has an escaped space, but we need to split
+        # the last argument
+        editor = map(lambda s: s.replace('\ ', ' '), re.split(r'(?<!\\) ', editor) + [fp.name])
+        subprocess.call(editor)
+        fp.seek(0)
+        entries = filter(string.strip, [fp.read()])
+    return entries
+
+
 def main():
     #parse args
     parser, args = parse_args()
@@ -186,9 +207,12 @@ def main():
             sys.exit()
         get_entries_since(journal_location, date)
     else:
-        # Check for no-args and show help then
         if len(args.entry) == 0:
-            parser.print_help()
+            entries = get_entries_from_editor()
+            if entries:
+                record_entries(journal_location, entries)
+            else:
+                print "journal: error: missing entry"
             sys.exit()
 
         # Cleanup/check for empty entry list
