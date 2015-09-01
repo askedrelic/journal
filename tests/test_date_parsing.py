@@ -9,20 +9,20 @@ except ImportError:
 
 import datetime
 
-from journal import main, parse
+from journal import main
+from journal import parse
 
 
 class TestParser(unittest.TestCase):
     def setUp(self):
         self.parser = parse.Parse()
-        self.today = datetime.date.today()
+        self.today = datetime.datetime.now().replace(second=0,minute=0,microsecond=0).date()
 
     def test_parsing_days(self):
-        date_today = datetime.date(self.today.year, self.today.month, self.today.day)
-        date_yesterday = datetime.date(self.today.year, self.today.month, self.today.day-1)
+        date_yesterday = self.today - datetime.timedelta(days=1)
 
         dates = map(self.parser.day, 'today t yesterday y'.split())
-        answers = [date_today, date_today, date_yesterday, date_yesterday]
+        answers = [self.today, self.today, date_yesterday, date_yesterday]
 
         self.assertListEqual(dates, answers)
 
@@ -36,7 +36,9 @@ class TestParser(unittest.TestCase):
 
         #'a day ago' case
         dates.append("a day ago")
-        answers.append(datetime.date(self.today.year, self.today.month, self.today.day) - datetime.timedelta(days=1))
+        answers.append(
+            datetime.date(self.today.year, self.today.month, self.today.day) - datetime.timedelta(days=1)
+        )
 
         dates = map(self.parser.day, dates)
 
@@ -66,6 +68,3 @@ class TestParser(unittest.TestCase):
                 ]
 
         self.assertListEqual(dates, answers)
-
-if __name__ == '__main__':
-    unittest.main()
