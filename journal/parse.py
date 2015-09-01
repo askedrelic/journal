@@ -13,7 +13,7 @@ class Parse(object):
         if date_string == 'today' or date_string == 't':
             return datetime.date(today.year, today.month, today.day)
         elif date_string == 'yesterday' or date_string == 'y':
-            return datetime.date(today.year, today.month, today.day-1)
+            return datetime.date(today.year, today.month, today.day) - datetime.timedelta(days=1)
         elif re.search(r'(\d{1,3}|a) days? ago', date_string):
             return Parse.n_day(date_string)
         else:
