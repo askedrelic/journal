@@ -1,7 +1,10 @@
 #History
 
-##v0.4.0 - WIP
+##v0.5.0 - WIP
 - more tests?
+
+##v0.4.0 - 2015/09/01
+- if `journal` is called with no args, try and use $EDITOR to write an entry
 
 ##v0.3.0 - 2012/05/09
 - added support for multiple journals and journal locations
