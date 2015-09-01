@@ -168,8 +168,10 @@ def get_entries_from_editor():
         # the last argument
         editor = map(lambda s: s.replace('\ ', ' '), re.split(r'(?<!\\) ', editor) + [fp.name])
         subprocess.call(editor)
-        fp.seek(0)
-        entries = filter(string.strip, [fp.read()])
+        # Open and read from temp file
+        with open(fp.name, "rb") as temp_file:
+            # Strip empty lines
+            entries = [x.strip() for x in temp_file.readlines() if x.strip()]
     return entries
 
 
