@@ -209,7 +209,7 @@ def main():
             sys.exit()
         get_entries_since(journal_location, date)
     else:
-        if len(args.entry) == 0:
+        if not args.entry:
             entries = get_entries_from_editor()
             if entries:
                 record_entries(journal_location, entries)

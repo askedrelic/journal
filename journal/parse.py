@@ -4,15 +4,19 @@
 import time, datetime
 import re
 
+OPT_TODAY = frozenset(['t', 'today'])
+OPT_YESTERDAY = frozenset(['y', 'yesterday'])
+
+
 class Parse(object):
 
     @staticmethod
     def day(date_string):
         today = datetime.date.today()
         date_string = date_string.strip().lower()
-        if date_string == 'today' or date_string == 't':
+        if date_string in OPT_TODAY:
             return datetime.date(today.year, today.month, today.day)
-        elif date_string == 'yesterday' or date_string == 'y':
+        elif date_string in OPT_YESTERDAY:
             return datetime.date(today.year, today.month, today.day) - datetime.timedelta(days=1)
         elif re.search(r'(\d{1,3}|a) days? ago', date_string):
             return Parse.n_day(date_string)
