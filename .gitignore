@@ -2,3 +2,4 @@ journal.egg-info/*
 dist/*
 .tox/*
 *.pyc
+env/
