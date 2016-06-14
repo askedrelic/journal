@@ -86,6 +86,6 @@ With multiple journals defined, you can use the `--journal|-j name` switch to
 choose which journal to write to.
 
 
-[1]: http://peterlyons.com/leveling_up.html
+[1]: http://peterlyons.com/leveling-up
 [2]: http://asktherelic.com/2011/08/16/journaling/
 [3]: http://pypi.python.org/pypi/journal/
