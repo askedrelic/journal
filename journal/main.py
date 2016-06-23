@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #py2.5 compatibility
-from __future__ import with_statement
+from __future__ import with_statement, print_function
 
 import sys
 from os import path, makedirs, environ
@@ -10,9 +10,13 @@ import re
 import argparse
 import string
 import datetime
-import ConfigParser
 import subprocess
 import tempfile
+import six
+if six.PY2:
+    import ConfigParser
+else:
+    import configparser as ConfigParser
 
 from journal import __version__, parse
 
@@ -77,7 +81,7 @@ def parse_config(args):
     if not path.exists(config_path):
         # Complain if they provided non-existant config
         if args.config_file != DEFAULT_JOURNAL_RC:
-            print "journal: error: config file '" + args.config_file + "' not found"
+            print("journal: error: config file '" + args.config_file + "' not found")
             sys.exit()
         else:
             # If no config file, use default journal location
@@ -101,7 +105,7 @@ def check_journal_dest(location):
         try:
             makedirs(journal_dir)
         except:
-            print "journal: error: creating journal storage directory failed"
+            print("journal: error: creating journal storage directory failed")
             sys.exit()
 
 def record_entries(journal_location, entries):
@@ -111,7 +115,7 @@ def record_entries(journal_location, entries):
     """
     check_journal_dest(journal_location)
     current_date = datetime.datetime.today()
-    date_header = current_date.strftime("%a %I:%M:%S %Y-%m-%d") + "\n"
+    date_header = current_date.strftime("%a %H:%M:%S %Y-%m-%d") + "\n"
     with open(build_journal_path(journal_location, current_date), "a") as date_file:
         entry_output = date_header
         # old style
@@ -145,7 +149,7 @@ def get_entry(journal_location, date):
 
 def daterange(start_date, end_date):
     #loop over days + 1 for inclusive behavior
-    for n in xrange((end_date - start_date).days + 1):
+    for n in range((end_date - start_date).days + 1):
         yield start_date + datetime.timedelta(n)
 
 def get_entries_since(journal_location, date):
@@ -153,7 +157,7 @@ def get_entries_since(journal_location, date):
     for single_date in daterange(date, today):
         entry = get_entry(journal_location, single_date)
         if entry:
-            print entry
+            print(entry)
 
 
 def get_entries_from_editor():
@@ -193,19 +197,19 @@ def main():
     if args.view:
         date = date_parse.day(args.view)
         if not date:
-            print "journal: error: unknown date format"
+            print("journal: error: unknown date format")
             sys.exit()
 
         entry = get_entry(journal_location, date)
         if entry:
-            print entry
+            print(entry)
         else:
-            print "journal: error: entry not found on date %s" % date
+            print("journal: error: entry not found on date %s" % date)
             sys.exit()
     elif args.since:
         date = date_parse.day(args.since)
         if not date:
-            print "journal: error: unknown date format"
+            print("journal: error: unknown date format")
             sys.exit()
         get_entries_since(journal_location, date)
     else:
@@ -214,15 +218,18 @@ def main():
             if entries:
                 record_entries(journal_location, entries)
             else:
-                print "journal: error: missing entry"
+                print("journal: error: missing entry")
             sys.exit()
 
         # Cleanup/check for empty entry list
-        entries = filter(string.strip, args.entry)
+        if six.PY2:
+            entries = filter(string.strip, args.entry)
+        else:
+            entries = filter(string.whitespace.strip, args.entry)
         if entries:
             record_entries(journal_location, entries)
         else:
-            print "journal: error: missing entry"
+            print("journal: error: missing entry")
             sys.exit()
 
 if __name__ == "__main__":
