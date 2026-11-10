@@ -67,3 +67,19 @@ class TestParser(unittest.TestCase):
                 datetime.date(1986, 7, 22),
                 ]
         self.assertListEqual(dates, answers)
+
+    def test_days_ago_with_leading_text_returns_none(self):
+        # 'day' uses re.search so 'xx5 days ago' reaches n_day, whose
+        # re.match then fails; it must return None (clean CLI error)
+        # instead of raising AttributeError.
+        self.assertIsNone(self.parser.day("xx5 days ago"))
+        self.assertIsNone(self.parser.day("in 5 days ago"))
+        # genuine relative dates keep working
+        self.assertEqual(
+            self.parser.day("5 days ago"),
+            self.today - datetime.timedelta(days=5),
+        )
+        self.assertEqual(
+            self.parser.day("a day ago"),
+            self.today - datetime.timedelta(days=1),
+        )

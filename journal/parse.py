@@ -30,6 +30,8 @@ class Parse(object):
         """
         today = datetime.date.today()
         match = re.match(r'(\d{1,3}|a) days? ago', date_string)
+        if not match:
+            return None
         groups = match.groups()
         if groups:
             decrement = groups[0]
